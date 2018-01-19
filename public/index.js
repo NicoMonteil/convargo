@@ -72,6 +72,94 @@ const deliveries = [{
   }
 }];
 
+//Exercice1
+/*for (const item of deliveries)
+{
+    let priceKm = 0;
+    let priceVl =0;
+    for (const item2 of truckers){
+      if (item.truckerId == item2.id)
+      {
+        priceKm = item2.pricePerKm;
+        priceVl = item2.pricePerVolume;
+        break;
+      }
+    }
+    const shipping_price = (item.distance *priceKm) + (item.volume*priceVl);
+    shipping_price;
+    console.log(shipping_price);
+}*/
+
+
+//Exercice2
+/*for (const item of deliveries)
+{
+    let priceKm = 0;
+    let priceVl =0;
+    for (const item2 of truckers){
+      if (item.truckerId == item2.id)
+      {
+        priceKm = item2.pricePerKm;
+        priceVl = item2.pricePerVolume;
+        break;
+      }
+    }
+    if (item.volume >= 5)
+    {
+      priceVl = priceVl * 0.9;
+    }
+    else if (item.volume >= 10) {
+      priceVl = priceVl * 0.7;
+    }
+    else if (item.volume >= 25) {
+       priceVl = priceVl * 0.5;
+    }
+
+
+    const shipping_price = (item.distance *priceKm) + (item.volume*priceVl);
+    shipping_price;
+    console.log(shipping_price);
+}*/
+
+//Exercice3
+for (const item of deliveries)
+{
+    let priceKm = 0;
+    let priceVl =0;
+    for (const item2 of truckers){
+      if (item.truckerId == item2.id)
+      {
+        priceKm = item2.pricePerKm;
+        priceVl = item2.pricePerVolume;
+        break;
+      }
+    }
+    if (item.volume >= 5)
+    {
+      priceVl = priceVl * 0.9;
+    }
+    else if (item.volume >= 10) {
+      priceVl = priceVl * 0.7;
+    }
+    else if (item.volume >= 25) {
+       priceVl = priceVl * 0.5;
+    }
+
+
+    const shipping_price = (item.distance *priceKm) + (item.volume*priceVl);
+    shipping_price;
+    console.log("Shipping Price : " + shipping_price);
+    let priceTax = shipping_price*0.3;
+    let inssurance = priceTax*0.5;
+    console.log("Insurance : "+ inssurance);
+    let treasury = Math.round(item.distance/500);
+    console.log("Treasury : " + treasury);
+    let rest = priceTax - inssurance - treasury;
+    console.log("Rest : " + rest);
+
+
+}
+
 //list of actors for payment
 //useful from step 5
 const actors = [{
