@@ -160,7 +160,7 @@ const deliveries = [{
 
 }*/
 
-//Exercice 4
+/*//Exercice 4
 for (const item of deliveries)
 {
     let priceKm = 0;
@@ -187,7 +187,6 @@ for (const item of deliveries)
 
 
     const shipping_price = (item.distance *priceKm) + (item.volume*priceVl);
-    shipping_price;
     console.log("Shipping Price : " + shipping_price);
     let priceTax = shipping_price*0.3;
     let inssurance = priceTax*0.5;
@@ -201,15 +200,18 @@ for (const item of deliveries)
     {
        let deductible_charge = item.volume;
        console.log("Deductible Charge : " + deductible_charge);
-       convargo =  deductible_charge;
+       convargo =  deductible_charge + 200 + rest;
     }
-    convargo += rest;
+    else
+    {
+      convargo = convargo + rest + 1000;
+    }
     console.log("Total Convargo : " + convargo);
-}
+}*/
 
 //list of actors for payment
 //useful from step 5
-const actors = [{
+let actors = [{
   'deliveryId': 'bba9500c-fd9e-453f-abf1-4cd8f52af377',
   'payment': [{
     'who': 'shipper',
@@ -279,6 +281,87 @@ const actors = [{
     'amount': 0
   }]
 }];
+
+for (const item of deliveries)
+{
+    let priceKm = 0;
+    let priceVl =0;
+    for (const item2 of truckers){
+      if (item.truckerId == item2.id)
+      {
+        priceKm = item2.pricePerKm;
+        priceVl = item2.pricePerVolume;
+        break;
+      }
+    }
+    if (item.volume >= 5)
+    {
+      priceVl = priceVl * 0.9;
+    }
+    else if (item.volume >= 10) {
+      priceVl = priceVl * 0.7;
+    }
+    else if (item.volume >= 25) {
+       priceVl = priceVl * 0.5;
+    }
+
+
+
+    let shipping_price = (item.distance *priceKm) + (item.volume*priceVl);
+    console.log("Shipping Price : " + shipping_price);
+    let priceTax = shipping_price*0.3;
+    let inssurance = priceTax*0.5;
+    console.log("Insurance : "+ inssurance);
+    let treasury = Math.round(item.distance/500);
+    console.log("Treasury : " + treasury);
+    let rest = priceTax - inssurance - treasury;
+    console.log("Rest : " + rest);
+    let convargo = 0;
+    let deductible_charge;
+    if (item.options.deductibleReduction == true)
+    {
+       deductible_charge = item.volume + 200;
+       console.log("Deductible Charge : " + deductible_charge);
+       convargo =  deductible_charge + rest;
+    }
+    else
+    {
+      convargo = convargo + rest + 1000;
+      deductible_charge = 1000;
+    }
+    console.log("Total Convargo : " + convargo);
+
+    var payment = [
+      {
+          "who": "shipper",
+          "type": "debit",
+          "amount": shipping_price + deductible_charge
+        },
+        {
+          "who": "trucker",
+          "type": "credit",
+          "amount": shipping_price*0.7
+        },
+        {
+          "who": "insurance",
+          "type": "credit",
+          "amount": inssurance
+        },
+        {
+          "who": "treasury",
+          "type": "credit",
+          "amount": treasury
+        },
+        {
+          "who": "convargo",
+          "type": "credit",
+          "amount": convargo
+        }
+
+    ]
+    console.log(payment);
+}
+
 
 console.log(truckers);
 console.log(deliveries);
